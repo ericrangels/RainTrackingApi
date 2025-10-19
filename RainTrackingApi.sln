@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RainTrackingApi", "RainTrackingApi\RainTrackingApi.csproj", "{EADF9A93-FB82-465A-9210-B95EB2170FCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RainTrackingApi.Tests", "RainTrackingApi.Tests\RainTrackingApi.Tests.csproj", "{90B546A0-FE33-48E0-B693-6F414019F2A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EADF9A93-FB82-465A-9210-B95EB2170FCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EADF9A93-FB82-465A-9210-B95EB2170FCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EADF9A93-FB82-465A-9210-B95EB2170FCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90B546A0-FE33-48E0-B693-6F414019F2A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90B546A0-FE33-48E0-B693-6F414019F2A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90B546A0-FE33-48E0-B693-6F414019F2A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90B546A0-FE33-48E0-B693-6F414019F2A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
