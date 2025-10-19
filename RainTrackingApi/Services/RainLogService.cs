@@ -24,9 +24,12 @@ namespace RainTrackingApi.Services
             return rainLogs;
         }
 
-        public async Task<List<UserRainLog>> GetByUserIdAsync(string userId)
+        public async Task<List<UserRainLog>> GetByUserIdAsync(string userId, bool? isRaining = null)
         {
-            var rainLogs = await _repository.GetRainLogsByUserIdentifierAsync(userId);
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId required", nameof(userId));
+
+            var rainLogs = await _repository.GetRainLogsByUserIdentifierAsync(userId, isRaining);
 
             return rainLogs;
         }

@@ -6,18 +6,15 @@ using RainTrackingApi.Repositories;
 using RainTrackingApi.Repositories.Interfaces;
 using RainTrackingApi.Services;
 using RainTrackingApi.Services.Interfaces;
+using RainTrackingApi.Swagger;
+using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Rain Tracking API", Version = "v1" });
-});
 
 builder.Services.AddDbContext<RainTrackingDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
@@ -28,14 +25,33 @@ builder.Services.AddScoped<IRainLogService, RainLogService>();
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfiles>());
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Rain Tracking API", Version = "v1" });
+    c.EnableAnnotations();
+
+    // include XML comments for controller/method summaries
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+        c.IncludeXmlComments(xmlPath);
+
+    // add the operation filter to describe the x-userId header
+    c.OperationFilter<AddUserIdHeaderOperationFilter>();
+
+    // enable example filters from Swashbuckle.Filters
+    c.ExampleFilters();
+});
+
+builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rain Tracking API v1");
+});
 
 app.UseHttpsRedirection();
 

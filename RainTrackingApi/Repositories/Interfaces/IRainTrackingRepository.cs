@@ -6,7 +6,7 @@ namespace RainTrackingApi.Repositories.Interfaces
     {
         Task<List<UserRainLog>> GetAllRainLogAsync();
 
-        Task<List<UserRainLog>> GetRainLogsByUserIdentifierAsync(string userIdentifier);
+        Task<List<UserRainLog>> GetRainLogsByUserIdentifierAsync(string userIdentifier, bool? isRaining = null);
 
         Task<User?> GetUserByIdentifierAsync(string userIdentifier);
 

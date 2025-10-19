@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using RainTrackingApi.Models.Domain;
 using RainTrackingApi.Models.DTO;
 using RainTrackingApi.Services.Interfaces;
+using RainTrackingApi.Swagger.Examples;
 using RainTrackingApi.Validation;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 using System.ComponentModel.DataAnnotations;
 
 namespace RainTrackingApi.Controllers
@@ -23,9 +26,14 @@ namespace RainTrackingApi.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetRainLog([FromHeader(Name = "x-userId"), NotEmptyOrWhitespace] string userIdentifier)
+        [SwaggerOperation(Summary = "Get rain logs for the specified user", Description = "Requires x-userId header")]
+        [SwaggerResponse(200, "List of user rain logs", typeof(List<RainLogResponseDto>))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(RainLogResponseExample))]
+        public async Task<IActionResult> GetRainLog(
+            [FromHeader(Name = "x-userId"), NotEmptyOrWhitespace] string userIdentifier,
+            [FromQuery(Name = "rain")] bool? isRaining)
         {
-            var rainLogs = await _rainLogService.GetByUserIdAsync(userIdentifier);
+            var rainLogs = await _rainLogService.GetByUserIdAsync(userIdentifier, isRaining);
             var rainLogsDto = _mapper.Map<List<RainLogResponseDto>>(rainLogs);
 
             return Ok(rainLogsDto);
@@ -34,6 +42,10 @@ namespace RainTrackingApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation(Summary = "Create a new rain log for the specified user", Description = "Requires x-userId header")]
+        [SwaggerRequestExample(typeof(AddRainLogRequestDto), typeof(AddRainLogRequestExample))]
+        [SwaggerResponse(201, "Created rain log", typeof(RainLogResponseDto))]
+        [SwaggerResponseExample(StatusCodes.Status201Created, typeof(RainLogResponseExample))]
         public async Task<IActionResult> PostRainLog(
             [FromHeader(Name = "x-userId"), NotEmptyOrWhitespace] string userIdentifier,
             [FromBody, Required] AddRainLogRequestDto rainRequest)

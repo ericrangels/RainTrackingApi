@@ -22,12 +22,20 @@ namespace RainTrackingApi.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<UserRainLog>> GetRainLogsByUserIdentifierAsync(string userIdentifier)
+        public async Task<List<UserRainLog>> GetRainLogsByUserIdentifierAsync(string userIdentifier, bool? isRaining = null)
         {
-            return await _dbContext.UserRainLog
+            var query = _dbContext.UserRainLog
                 .AsNoTracking()
-                .Include(usr => usr.User)
-                .Where(usr => usr.User.UserIdentifier == userIdentifier)
+                .Include(r => r.User)
+                .Where(r => r.User.UserIdentifier == userIdentifier);
+
+            if (isRaining.HasValue)
+            {
+                query = query.Where(r => r.Rain == isRaining.Value);
+            }
+
+            return await query
+                .OrderByDescending(r => r.Timestamp)
                 .ToListAsync();
         }
 
