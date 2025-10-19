@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   db:
     image: postgres:latest
@@ -13,6 +12,6 @@ services:
     environment:
       ConnectionStrings__Default: Host=db;Database=raindb;Username=rainuser;Password=rainpass
     ports:
-      - "5000:80"
+      - "5000:8080"
     depends_on:
       - db
