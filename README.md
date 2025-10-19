@@ -22,9 +22,12 @@ Swagger UI and example requests are included.
 
 ## Prerequisites
 
+**All platforms (Windows, macOS, Linux):**
 - Docker Desktop or Docker Engine
 - Docker Compose (included with Docker Desktop)
 - Git
+
+**Note:** All commands in this guide work on Windows, macOS, and Linux. Use Terminal on macOS/Linux or PowerShell/Command Prompt on Windows.
 
 ---
 
@@ -170,6 +173,10 @@ Wait a few seconds for PostgreSQL to fully start, then retry:
 ```bash
 docker-compose exec api sh -c "cd /src && dotnet ef database update"
 ```
+
+### Docker Desktop not starting (macOS/Windows)
+
+Ensure Docker Desktop is running before executing any `docker-compose` commands. On macOS, check that Docker Desktop is running in the menu bar.
 
 ### Port already in use
 
