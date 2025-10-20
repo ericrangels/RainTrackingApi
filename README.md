@@ -66,7 +66,12 @@ This will:
 
 ### 4. Apply database migrations
 
-Open a new terminal window and run:
+Open a new terminal window, don't forget to navigate to the API directory:
+```bash
+cd RainTrackingApi
+```
+
+Run the migration command:
 
 ```bash
 docker-compose exec api sh -c "cd /src && dotnet ef database update"
