@@ -1,0 +1,47 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 120
+
+# C# files
+[*.cs]
+# Line length
+max_line_length = 120
+
+# File-scoped namespaces (C# 10+)
+csharp_style_namespace_declarations = file_scoped:warning
+
+# 'using' directive preferences
+csharp_using_directive_placement = outside_namespace:warning
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Indentation preferences
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = one_less_than_current
+
+# Newline preferences
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+# Wrapping preferences
+csharp_preserve_single_line_statements = false
+csharp_preserve_single_line_blocks = true
+
+# Expression preferences
+csharp_prefer_braces = true:warning
+
+# Markdown files
+[*.md]
+max_line_length = 100
+trim_trailing_whitespace = false

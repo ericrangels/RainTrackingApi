@@ -7,7 +7,7 @@ namespace RainTrackingApi.Models.Domain
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
         [StringLength(150)]
         public string UserIdentifier { get; set; } // From x-userId header
 

@@ -41,7 +41,7 @@ namespace RainTrackingApi.Services
             if (string.IsNullOrWhiteSpace(createRainLog.UserIdentifier))
                 throw new ArgumentException("userIdentifier required", nameof(createRainLog.UserIdentifier));
 
-            var user = await _repository.GetUserByIdentifierAsync(createRainLog.UserIdentifier) 
+            var user = await _repository.GetUserByIdentifierAsync(createRainLog.UserIdentifier)
                 ?? await CreateUser(createRainLog.UserIdentifier);
 
             var rainLog = _mapper.Map<UserRainLog>(createRainLog);

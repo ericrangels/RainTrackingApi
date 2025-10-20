@@ -6,7 +6,7 @@ namespace RainTrackingApi.Models.Request
     {
         [Required]
         public bool? Rain { get; set; }
-        
+
         [Range(-90, 90)]
         public decimal? Latitude { get; set; }
 

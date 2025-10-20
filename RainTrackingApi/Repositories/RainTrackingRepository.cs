@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RainTrackingApi.Data;
 using RainTrackingApi.Models.Domain;
 using RainTrackingApi.Repositories.Interfaces;
@@ -50,14 +50,16 @@ namespace RainTrackingApi.Repositories
 
         public Task AddUserAsync(User user)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
             _dbContext.User.Add(user);
             return Task.CompletedTask;
         }
 
         public Task AddRainLogAsync(UserRainLog rainLog)
         {
-            if (rainLog == null) throw new ArgumentNullException(nameof(rainLog));
+            if (rainLog == null)
+                throw new ArgumentNullException(nameof(rainLog));
             _dbContext.UserRainLog.Add(rainLog);
             return Task.CompletedTask;
         }

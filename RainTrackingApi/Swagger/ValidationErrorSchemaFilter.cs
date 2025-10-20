@@ -13,7 +13,7 @@ namespace RainTrackingApi.Swagger
             if (context.Type == typeof(ProblemDetails))
             {
                 var validationErrorSchema = context.SchemaGenerator.GenerateSchema(typeof(ValidationErrorResponse), context.SchemaRepository);
-                
+
                 schema.Type = validationErrorSchema.Type;
                 schema.Properties = validationErrorSchema.Properties;
                 schema.Required = validationErrorSchema.Required;

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RainTrackingApi.Models.DTO;
 using RainTrackingApi.Models.Request;
@@ -8,7 +9,6 @@ using RainTrackingApi.Swagger.Examples;
 using RainTrackingApi.Validation;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
-using System.ComponentModel.DataAnnotations;
 
 namespace RainTrackingApi.Controllers
 {

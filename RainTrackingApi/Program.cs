@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using RainTrackingApi.Data;
@@ -8,7 +9,6 @@ using RainTrackingApi.Services;
 using RainTrackingApi.Services.Interfaces;
 using RainTrackingApi.Swagger;
 using Swashbuckle.AspNetCore.Filters;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,9 +27,9 @@ builder.Services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfiles>());
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "Rain Tracking API", 
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Rain Tracking API",
         Version = "v1",
         Description = @"A REST API for tracking rain observations by users. 
                        Allows users to log rain events with timestamps and optional location data, 

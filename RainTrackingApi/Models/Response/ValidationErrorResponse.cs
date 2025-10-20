@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace RainTrackingApi.Models.Response
 {
     public class ValidationErrorResponse

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace RainTrackingApi.Validation
 {
@@ -11,8 +11,10 @@ namespace RainTrackingApi.Validation
 
         public override bool IsValid(object? value)
         {
-            if (value == null) return false;
-            if (value is string s) return !string.IsNullOrWhiteSpace(s);
+            if (value == null)
+                return false;
+            if (value is string s)
+                return !string.IsNullOrWhiteSpace(s);
             return true;
         }
     }
