@@ -243,18 +243,31 @@ docker-compose exec api sh -c "cd /src && dotnet ef database update"
 RainTrackingApi/
 ├── RainTrackingApi/
 │   ├── Controllers/          # API endpoints
-│   ├── Services/             # Business logic
+│   ├── Services/             # Business logic layer
+│   │   └── Interfaces/       # Service interfaces
 │   ├── Repositories/         # Data access layer
+│   │   └── Interfaces/       # Repository interfaces
 │   ├── Models/
-│   │   ├── Domain/           # Database entities
-│   │   └── DTO/              # API request/response models
+│   │   ├── Domain/           # Database entities (User, UserRainLog)
+│   │   ├── DTO/              # Data transfer objects
+│   │   ├── Request/          # API request models
+│   │   └── Response/         # API response models
 │   ├── Data/                 # EF Core DbContext
 │   ├── Migrations/           # Database migrations
-│   ├── Swagger/              # Swagger examples & config
+│   ├── Mappings/             # AutoMapper profiles
+│   ├── Validation/           # Custom validation attributes
+│   ├── Swagger/              # Swagger configuration & examples
+│   │   └── Examples/         # Swagger example schemas
+│   ├── Properties/           # Launch settings
 │   ├── Program.cs            # Application startup
+│   ├── appsettings.json      # Application configuration
+│   ├── appsettings.Development.json  # Development configuration
 │   ├── Dockerfile            # Docker build configuration
 │   └── docker-compose.yml    # Docker services configuration
 ├── RainTrackingApi.Tests/    # Unit tests
+│   ├── Controllers/          # Controller tests
+│   └── Services/             # Service tests
+├── RainTrackingApi.sln       # Solution file
 └── README.md                 # This file
 ```
 
