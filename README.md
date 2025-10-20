@@ -11,9 +11,10 @@ Swagger UI and example requests are included.
 
 ## Features
 
-- **POST** `/api/rainlogs` — create a rain log for a user (creates user if missing)
-- **GET** `/api/rainlogs` — fetch a user's rain logs (supports optional `rain` query filter)
-- Swagger UI with examples at `/swagger`
+- **POST** `/api/data` — create a rain log for a user (creates user if missing)
+- **GET** `/api/data` — fetch a user's rain logs (supports optional `rain` query filter)
+- Swagger UI with enhanced documentation and examples at `/swagger`
+- Custom validation error schemas with detailed error messages
 - Uses EF Core with `RainTrackingDbContext` (PostgreSQL)
 - AutoMapper for DTO ↔ domain mappings
 - Simple repository + service layering
@@ -23,11 +24,16 @@ Swagger UI and example requests are included.
 ## Prerequisites
 
 **All platforms (Windows, macOS, Linux):**
-- Docker Desktop or Docker Engine
-- Docker Compose (included with Docker Desktop)
-- Git
+- **Docker Desktop** 4.0+ or **Docker Engine** 20.10+
+- **Docker Compose** 2.0+ (included with Docker Desktop)
+- **Git** 2.25+ (for cloning and version control)
 
 **Note:** All commands in this guide work on Windows, macOS, and Linux. Use Terminal on macOS/Linux or PowerShell/Command Prompt on Windows.
+
+**What you DON'T need to install locally:**
+- .NET 8 SDK (runs in Docker container)
+- PostgreSQL (runs in Docker container)
+- Entity Framework tools (installed in Docker container)
 
 ---
 
@@ -71,7 +77,7 @@ This creates the necessary database tables (`User` and `UserRainLog`).
 ### 5. Access the API
 
 - **Swagger UI:** http://localhost:5000/swagger
-- **API Base:** http://localhost:5000/api/rainlogs
+- **API Base:** http://localhost:5000/api/data
 
 ### 6. Stop the services
 
@@ -94,7 +100,7 @@ All endpoints require the `x-userId` header.
 ### Create a rain log
 
 ```bash
-curl -X POST http://localhost:5000/api/rainlogs \
+curl -X POST http://localhost:5000/api/data \
   -H "Content-Type: application/json" \
   -H "x-userId: user-123" \
   -d '{
@@ -119,13 +125,13 @@ curl -X POST http://localhost:5000/api/rainlogs \
 ### Get rain logs for a user
 
 ```bash
-curl -H "x-userId: user-123" http://localhost:5000/api/rainlogs
+curl -H "x-userId: user-123" http://localhost:5000/api/data
 ```
 
 **Optional filter by rain status:**
 
 ```bash
-curl -H "x-userId: user-123" "http://localhost:5000/api/rainlogs?rain=true"
+curl -H "x-userId: user-123" "http://localhost:5000/api/data?rain=true"
 ```
 
 **Response (200 OK):**
@@ -140,6 +146,33 @@ curl -H "x-userId: user-123" "http://localhost:5000/api/rainlogs?rain=true"
     "longitude": -0.1278
   }
 ]
+```
+
+### Error Responses
+
+The API returns detailed validation errors when requests fail validation:
+
+```bash
+# Example: Missing x-userId header
+curl -X POST http://localhost:5000/api/data \
+  -H "Content-Type: application/json" \
+  -d '{"rain": true}'
+```
+
+**Error Response (400 Bad Request):**
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "errors": {
+    "x-userId": [
+      "The userIdentifier field is required.",
+      "The field must contain a non-empty, non-whitespace value."
+    ]
+  },
+  "traceId": "00-aee3f44db62908e94ed36f931970eaa1-46313aea3590f79c-00"
+}
 ```
 
 ---
