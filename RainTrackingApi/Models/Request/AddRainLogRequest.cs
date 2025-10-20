@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace RainTrackingApi.Models.Request
 {
     public class AddRainLogRequest
     {
-        [Required]
+        [Required(ErrorMessage = "The rain field is required.")]
         public bool? Rain { get; set; }
 
         [Range(-90, 90)]
