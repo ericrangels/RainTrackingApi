@@ -26,8 +26,8 @@ namespace RainTrackingApi.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(List<RainLogResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         [SwaggerOperation(
             Summary = "Retrieve rain logs",
             Description = "Gets all rain observation logs for the specified user. Supports optional filtering by rain status."
@@ -47,8 +47,8 @@ namespace RainTrackingApi.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RainLogResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         [SwaggerOperation(
             Summary = "Create rain log",
             Description = "Records a new rain observation log for the specified user. Creates the user if they don't exist."

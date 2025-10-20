@@ -1,9 +1,12 @@
+using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using RainTrackingApi.Data;
 using RainTrackingApi.Mappings;
+using RainTrackingApi.Models.Response;
 using RainTrackingApi.Repositories;
 using RainTrackingApi.Repositories.Interfaces;
 using RainTrackingApi.Services;
@@ -14,6 +17,29 @@ using Swashbuckle.AspNetCore.Filters;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState
+                .Where(e => e.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                );
+
+            var response = new ValidationErrorResponse
+            {
+                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                Title = "One or more validation errors occurred.",
+                Status = StatusCodes.Status400BadRequest,
+                Errors = errors,
+                TraceId = Activity.Current?.Id ?? context.HttpContext.TraceIdentifier
+            };
+
+            return new BadRequestObjectResult(response);
+        };
+    })
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -57,12 +83,6 @@ builder.Services.AddSwaggerGen(c =>
 
     // add the operation filter to describe the x-userId header
     c.OperationFilter<AddUserIdHeaderOperationFilter>();
-
-    // add schema filter to customize validation error response
-    c.SchemaFilter<ValidationErrorSchemaFilter>();
-
-    // add document filter to rename schemas
-    c.DocumentFilter<CustomSchemaDocumentFilter>();
 
     // enable example filters from Swashbuckle.Filters
     c.ExampleFilters();
