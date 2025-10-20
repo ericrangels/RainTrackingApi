@@ -1,13 +1,13 @@
-﻿using RainTrackingApi.Models.DTO;
+﻿using RainTrackingApi.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace RainTrackingApi.Swagger.Examples
 {
-    public class RainLogResponseExample : IExamplesProvider<RainLogResponseDto>
+    public class RainLogResponseExample : IExamplesProvider<RainLogResponse>
     {
-        public RainLogResponseDto GetExamples()
+        public RainLogResponse GetExamples()
         {
-            return new RainLogResponseDto
+            return new RainLogResponse
             {
                 Rain = true,
                 Timestamp = DateTime.UtcNow,

@@ -27,8 +27,22 @@ builder.Services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfiles>());
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Rain Tracking API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "Rain Tracking API", 
+        Version = "v1",
+        Description = @"A REST API for tracking rain observations by users. 
+                       Allows users to log rain events with timestamps and optional location data, 
+                       and retrieve their historical rain logs with filtering capabilities.",
+        Contact = new OpenApiContact
+        {
+            Name = "Rain Tracking API Support",
+            Email = "support@raintracking.example.com"
+        }
+    });
     c.EnableAnnotations();
+
+    c.TagActionsBy(api => new[] { "Rain Data" });
 
     // include XML comments for controller/method summaries
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -39,6 +53,12 @@ builder.Services.AddSwaggerGen(c =>
     // add the operation filter to describe the x-userId header
     c.OperationFilter<AddUserIdHeaderOperationFilter>();
 
+    // add schema filter to customize validation error response
+    c.SchemaFilter<ValidationErrorSchemaFilter>();
+
+    // add document filter to rename schemas
+    c.DocumentFilter<CustomSchemaDocumentFilter>();
+
     // enable example filters from Swashbuckle.Filters
     c.ExampleFilters();
 });
@@ -47,6 +67,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
 var app = builder.Build();
 
+// For non public API the swagger should be visible only if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

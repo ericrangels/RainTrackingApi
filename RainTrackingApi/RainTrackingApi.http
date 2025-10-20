@@ -1,6 +1,0 @@
-@RainTrackingApi_HostAddress = http://localhost:5057
-
-GET {{RainTrackingApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

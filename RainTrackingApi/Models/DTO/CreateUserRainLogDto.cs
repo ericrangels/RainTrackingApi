@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RainTrackingApi.Models.Domain
+namespace RainTrackingApi.Models.DTO
 {
-    public class CreateUserRainLogModel
+    public class CreateUserRainLogDto
     {        
         public bool Rain { get; set; }
         public string? UserIdentifier { get; set; }

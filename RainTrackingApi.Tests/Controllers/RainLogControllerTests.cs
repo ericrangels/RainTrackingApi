@@ -5,6 +5,8 @@ using Moq;
 using RainTrackingApi.Controllers;
 using RainTrackingApi.Models.Domain;
 using RainTrackingApi.Models.DTO;
+using RainTrackingApi.Models.Request;
+using RainTrackingApi.Models.Response;
 using RainTrackingApi.Services.Interfaces;
 using Xunit;
 
@@ -28,17 +30,17 @@ namespace RainTrackingApi.Tests.Controllers
         {
             // Arrange
             var userId = "user-b";
-            var requestDto = new AddRainLogRequestDto { Rain = true, Latitude = 1m, Longitude = 2m };
-            var createModel = new CreateUserRainLogModel { Rain = true, Latitude = 1m, Longitude = 2m, UserIdentifier = userId };
+            var requestDto = new AddRainLogRequest { Rain = true, Latitude = 1m, Longitude = 2m };
+            var createModel = new CreateUserRainLogDto { Rain = true, Latitude = 1m, Longitude = 2m, UserIdentifier = userId };
 
-            _mapperMock.Setup(m => m.Map<CreateUserRainLogModel>(requestDto)).Returns(createModel);
+            _mapperMock.Setup(m => m.Map<CreateUserRainLogDto>(requestDto)).Returns(createModel);
 
             var createdEntity = new UserRainLog { Id = 99, Rain = true };
-            _serviceMock.Setup(s => s.CreateAsync(It.Is<CreateUserRainLogModel>(m => m.UserIdentifier == userId && m.Rain == requestDto.Rain)))
+            _serviceMock.Setup(s => s.CreateAsync(It.Is<CreateUserRainLogDto>(m => m.UserIdentifier == userId && m.Rain == requestDto.Rain)))
                 .ReturnsAsync(createdEntity);
 
-            var createdDto = new RainLogResponseDto { UserIdentifier = userId, Rain = true };
-            _mapperMock.Setup(m => m.Map<RainLogResponseDto>(createdEntity)).Returns(createdDto);
+            var createdDto = new RainLogResponse { UserIdentifier = userId, Rain = true };
+            _mapperMock.Setup(m => m.Map<RainLogResponse>(createdEntity)).Returns(createdDto);
 
             // Act
             var actionResult = await _controller.PostRainLog(userId, requestDto);
@@ -49,7 +51,7 @@ namespace RainTrackingApi.Tests.Controllers
             createdResult!.StatusCode.Should().Be(201);
             createdResult.Value.Should().BeEquivalentTo(createdDto);
 
-            _serviceMock.Verify(s => s.CreateAsync(It.IsAny<CreateUserRainLogModel>()), Times.Once);
+            _serviceMock.Verify(s => s.CreateAsync(It.IsAny<CreateUserRainLogDto>()), Times.Once);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace RainTrackingApi.Services.Interfaces
 
         Task<List<UserRainLog>> GetByUserIdAsync(string userId, bool? isRaining = null);
 
-        Task<UserRainLog> CreateAsync(CreateUserRainLogModel createRainLog);
+        Task<UserRainLog> CreateAsync(CreateUserRainLogDto createRainLog);
     }
 }

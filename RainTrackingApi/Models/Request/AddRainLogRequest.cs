@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RainTrackingApi.Models.DTO
+namespace RainTrackingApi.Models.Request
 {
-    public class AddRainLogRequestDto
+    public class AddRainLogRequest
     {
         [Required]
         public bool? Rain { get; set; }

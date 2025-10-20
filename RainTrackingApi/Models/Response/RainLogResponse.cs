@@ -1,6 +1,6 @@
-﻿namespace RainTrackingApi.Models.DTO
+﻿namespace RainTrackingApi.Models.Response
 {
-    public class RainLogResponseDto
+    public class RainLogResponse
     {
         public DateTime Timestamp { get; set; }
         public bool Rain { get; set; }

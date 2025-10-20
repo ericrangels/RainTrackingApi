@@ -1,13 +1,13 @@
-﻿using RainTrackingApi.Models.DTO;
+﻿using RainTrackingApi.Models.Request;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace RainTrackingApi.Swagger.Examples
 {
-    public class AddRainLogRequestExample : IExamplesProvider<AddRainLogRequestDto>
+    public class AddRainLogRequestExample : IExamplesProvider<AddRainLogRequest>
     {
-        public AddRainLogRequestDto GetExamples()
+        public AddRainLogRequest GetExamples()
         {
-            return new AddRainLogRequestDto
+            return new AddRainLogRequest
             {
                 Rain = true,
                 Latitude = 51.5074m,
